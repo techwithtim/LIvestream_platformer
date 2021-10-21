@@ -1,0 +1,166 @@
+#00) TABLE OF CONTENTS ================================================================
+
+	#01) NAMING CONVENTIONS
+	#02) SETTING UP THE RUN ANIMATION
+	#03) ANIMATION TIMING GUIDE
+	#04) PUSH, PULL, JUMP, CLIMB
+	#05) PAGE 1 ALTERNATES
+
+You can contact me on Patreon, Twitter, or my Discord if you have any trouble.
+https://www.patreon.com/posts/22410682
+
+
+
+#01) NAMING CONVENTIONS ================================================================
+
+
+You're free to rename the files whatever you want, but this may help you to understand my methodology.
+Each bit of information about a sprite sheet is abbreviated, and then separated by an underscore.
+
+Example:
+"char_a_p1_1out_pfpn_v01.png" below i will use this example to explain each naming element.
+
+--------------------------------------------------------------------------------------
+
+char
+This is a character sheet. All my character sprite sheets will begin with this.
+
+a
+Character type A. As of 2020, this is the only one there is, but I'm trying to future-proof my naming conventions.
+
+p1
+Page 1. Each page is 512x512 and has a batch of related animations on it.
+If you're using the clothes, hair, etc. like a paper doll, you'll need to make sure they all have the same page number.
+There are currently 4 pages:
+  p1 (walk, run)
+  p2 (farming, mining, woodcutting)
+  p3 (fishing)
+  p4 (miscellaneous)
+
+1out
+This 4-digit code references the layer your paper doll part should be set up on.
+They should be layered numerically in order to maintain the correct visibility:
+  1out (outfit, lowest layer)
+  2clo (cloaks, capes, and mantles)
+  3fac (face items, like glasses and masks)
+  4har (hair)
+  5hat (hats and hoods)
+  6tla (primary tool layer, weapons and such)
+  7tlb (secondary tool layer, shields and off-hand weapons, highest layer)
+Note: There are occasions where a big hat or hair might cover the tool layer when the character is facing north.
+When this happens, you'll want to move the tool layer down for those particular frames.
+Also, some hats will require the hair to be removed to prevent clipping outside the sprite.
+I can't forsee how big all my future hats/hairs are going to be, so you'll need to check these on a case by case basis.
+
+pfpn
+This 4-digit code references the exact outfit/hair/hat in the sheet. Some examples:
+  humn (human)
+  boxr (boxers)
+  undi (undies)
+  pfpn (peasant farmer pants)
+  pfbn (peasant farmer bonnet)
+  etc.
+
+v01
+This is the color palette or variant.
+I will try and include a few versions with each asset, but you're welcome (and encouraged) to recolor or tweak any of them.
+
+--------------------------------------------------------------------------------------
+
+There are some empty folders in this asset, and that's intentional.
+Future assets that add outfits, hairstyles, etc. will use the same folders and naming conventions,
+allowing you to easily combine them and keep it all organized.
+
+I will also be adding new animations over time, so be aware that most of the currently empty spaces will be used eventually.
+
+Note: There are currently three non-human color variants. These are made to match the colors used in the Goblin and Demon add-ons.
+These add-ons are not official Mana Seed products, but they are compatible and I endorse them happily.
+You can find any third-party compatible assets in this collection on itchio: https://itch.io/c/1072771/mana-seed-compatible
+
+
+
+#02) SETTING UP THE RUN ANIMATION ================================================================
+
+This note refers only to page 1 (char_a_p1...).
+The run animation in this asset borrows 4 frames from the walk animation.
+Here are some notes to help you make that work:
+
+The first 6 frames (from left to right) on rows 5 through 8 are the walk animation frames.
+The 7th and 8th frames on each row are the run frames.
+Use the 7th and 8th frames to replace the 3rd and 6th frame to make your run animation.
+So the walk cycle would like this: frames 1,2,3,4,5,6.
+But the run cycle would look like this: frames 1,2,7,4,5,8
+
+The walk animation can use the same timing on each frame (about 135ms per frame).
+But if you use the same timing for the run cycle, it won't look right.
+You'll want frames 7 and 8 to hold longer than the others, and frames 2 and 5 to run shorter.
+For me, a good timing on the 6-frame run cycle (in milliseconds) is 80/55/125/80/55/125/etc.
+But you should experiment with the timing and find something that works well for your game.
+
+
+
+
+#03) ANIMATION TIMING GUIDE ================================================================
+
+You are free to set whatever timing you wish, but these are my personal settings for timing on all the animations (in milliseconds).
+Bear in mind, movement animations should be adjusted to match the speed the sprite is moving, which will require some testing.
+
+Walk		135/135/135/135/135/135
+Run		80/55/125/80/55/125
+Push		300/300
+Pull		400/400
+Jump		300/150/100/300 (the 4th frame is a repeat of the 1st, and you should hold the 2nd/3rd based on the length of the jump)
+
+Tilling		180/60/60/180
+Seeding		300/100/100/100
+Watering	400/240/180/300
+Pulling up	400/240/180/300
+
+Fishing (cast)	180/100/100/800 (now the line is in the water, hold frame 4 during wait)
+Fishing (wait)	400/400 (applies only to the bobber)
+Fishing (reel)	400/200 (repeat frames 5 and 6 until reeled in)
+Fishing (show)	400/1000 (now you have a fish, return to idle)
+
+Smithing	400/400/80/80/80
+Climbing	250/125/125/250 (repeat frames 1-4 until the character reaches the top, and then...) 300 (the 5th frame)
+		(note: the climbing animation runs forward-backward 1,2,3,4,3,2,1,2,3,4,etc. rather than a standard loop)
+
+Toe tap		400/400 (maybe speed up to show greater impatience)
+
+
+
+#04) PUSH, PULL, JUMP, CLIMB ================================================================
+
+Push, pull, and jump all share page 1 with the walk/run animation.
+
+Push is a 2-frame looping animation that uses the 2nd and 3rd columns of the first four rows.
+Pull is a 2-frame looping animation that uses the 4th and 5th columns of the first four rows.
+Both of these animations should loop for as long as the character is pushing or pulling an object.
+You can find a timing suggestion in the previous section.
+
+Jump is a 4-frame animation that uses the last three columns of the first four rows.
+The first frame is a brief crouch, followed by a rising frame, then an airborne frame.
+Then you repeat the crouch frame again briefly when the character hits the ground.
+You can find a usable shadow sprite in the accompanying "base effects.png" file.
+I put it here so you can manually adjust the height of the jump.
+The smaller shadow goes with frame 2 (rising), the larger one goes with frame 3 (airborne).
+You can find some timing suggestions in the previous section, but this one will require some testing as you fiddle with height and duration.
+
+Climb can be found on page 4 and occupies the first five frames of the third row, below the smithing animation.
+The first four frames should repeat in a forward-backward loop like so: 1,2,3,4,3,2,1,2,3,4,etc.
+Once the character reaches the top of the climb, play the 5th frame briefly before moving to standing at the top.
+
+
+
+#05) PAGE 1 ALTERNATES ================================================================
+
+As of update 2.0, two alternates for page 1 are included in the asset.
+The polearm alternate (p1po) can be used if you want your character to hold a polearm type weapon in front of them.
+The two-handed weapon alternate (p12h) can be used if you want your character to hold a two-handed weapon over their shoulder.
+
+The tool layers (6tla) for these pages need to be switched in front or behind the character based on their facing or animation.
+If you can't program this switch into your engine, you'll need to copy/paste them over or under the character sprite manually.
+In most cases it should be obvious which way it goes, but if there's any confusion, you can check the included guide image for specifics.
+The layer guide demonstrates the 2hwp alt page 1, but the only difference with the pole alt is the tool is behind the sprite for all four standing frames.
+
+There is a "hoe_and_axe.png" image included in the archive that can help you make your own replacement tools.

@@ -1,0 +1,61 @@
+You're free to rename the files whatever you want, but this may help you to understand my methodology.
+Each bit of information about a sprite sheet is abbreviated, and then separated by an underscore.
+
+Example:
+"char_a_p1_1out_pfpn_v01.png" below i will use this example to explain each naming element.
+
+--------------------------------------------------------------------------------------
+
+char
+This is a character sheet. All my character sprite sheets will begin with this.
+
+a
+Character type A. As of now, this is the only one there is, but I'm trying to future-proof my naming conventions.
+
+p1
+Page 1. Each page is 512x512 and has a batch of related animations on it.
+If you're using the clothes, hair, etc. like a paper doll, you'll need to make sure they all have the same page number.
+There are currently 6 pages:
+  p1 (walk, run)
+  p1B (alternate page 1 that features the character holding a polearm)
+  p1C (alternate page 1 that features the character holding a 2-handed weapon)
+  p2 (farming, mining, woodcutting)
+  p3 (fishing)
+  p4 (miscellaneous)
+
+1out
+This 4-digit code references the layer your paper doll part should be set up on.
+They should be layered numerically in order to maintain the correct visibility:
+  0bot (sub-layer, fully behind the character sprite)
+  1out (outfit, lowest layer)
+  2clo (cloaks, capes, and mantles)
+  3fac (face items, like glasses and masks)
+  4har (hair)
+  5hat (hats and hoods)
+  6tla (primary tool layer, weapons and such)
+  7tlb (secondary tool layer, shields and off-hand weapons)
+  8top (highest layer, goes on top of everything else)
+Note: There are occasions where a big hat or hair might cover the tool layer when the character is facing north.
+When this happens, you'll want to move the tool layer down for those particular frames.
+Also, some hats will require the hair to be removed to prevent clipping outside the sprite.
+I can't forsee how big all my future hats/hairs are going to be, so you'll need to check these on a case by case basis.
+
+fpan
+This 4-digit code references the exact outfit/hair/hat in the sheet. Some examples:
+  boxr (boxers)
+  undi (undies)
+  pfpn (peasant farmer pants)
+  pfbn (peasant farmer bonnet)
+  etc.
+
+v01
+This is the color palette or variant.
+I will try and include a few versions with each asset, but you're welcome (and encouraged) to recolor or tweak any of them.
+
+--------------------------------------------------------------------------------------
+
+There might be some empty folders in this asset, and that's intentional.
+Future assets that add outfits, hairstyles, etc. will use the same folders and naming conventions,
+allowing you to easily combine them and keep it all organized.
+
+I will also be adding new animations over time, so be aware that most of the currently empty frames may be used eventually.
