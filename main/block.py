@@ -1,16 +1,12 @@
 import pygame
+from base_object import AbstractObject
 
 
-class Block:
+class Block(AbstractObject):
     def __init__(self, x, y, img, rotation=0):
-        self.x = x
-        self.y = y
-        self.img = img
+        super.__init__(x, y)
         self.rotation = rotation
         self.rotate_image()
 
     def rotate_image(self):
         self.img = pygame.transform.rotate(self.img, self.rotation)
-
-    def draw(self, win):
-        win.blit(self.img, (self.x, self.y))

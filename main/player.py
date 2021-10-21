@@ -22,7 +22,8 @@ class Player:
         },
         "attack": {
             "chop": PLAYER_ATTACK_CHOP
-        }
+        },
+        "dead": [DEAD, DEAD, DEAD]
     }
     WALK_VEL = 3
     RUN_VEL = 5
@@ -67,6 +68,9 @@ class Player:
         self.y += 1
         self.grounded = True
 
+    def die(self):
+        self.action = "dead"
+
     def toggle_big(self):
         self.big = not self.big
 
@@ -84,31 +88,34 @@ class Player:
             self.action = "stand"
 
     def set_image(self):
-        action = self.ACTIONS[self.action_type][self.action][self.direction]
-        flip = False
-        if self.action == "push" and self.direction == "right":
-            flip = True
-            action = self.ACTIONS[self.action_type][self.action]["left"]
+        if self.action == "dead":
+            self.img = self.ACTIONS["dead"]
+        else:
+            action = self.ACTIONS[self.action_type][self.action][self.direction]
+            flip = False
+            if self.action == "push" and self.direction == "right":
+                flip = True
+                action = self.ACTIONS[self.action_type][self.action]["left"]
 
-        if self.animation_count // self.frame_duration >= len(action[1]):
-            self.animation_count = 0
+            if self.animation_count // self.frame_duration >= len(action[1]):
+                self.animation_count = 0
 
-            if self.jumping:
-                self.action = "falling"
+                if self.jumping:
+                    self.action = "falling"
 
-            if self.action_type == "attack":
-                self.action_type = "weapon"
-                self.action = "stand"
+                if self.action_type == "attack":
+                    self.action_type = "weapon"
+                    self.action = "stand"
 
-        self.img = [layer[self.animation_count//self.frame_duration]
-                    for layer in action if layer]
+            self.img = [layer[self.animation_count//self.frame_duration]
+                        for layer in action if layer]
 
-        if flip:
-            new_img = []
-            for image in self.img:
-                image = pygame.transform.flip(image, True, False)
-                new_img.append(image)
-            self.img = new_img
+            if flip:
+                new_img = []
+                for image in self.img:
+                    image = pygame.transform.flip(image, True, False)
+                    new_img.append(image)
+                self.img = new_img
 
         if self.big:
             new_img = []
@@ -129,6 +136,9 @@ class Player:
         self.blocked_direction = direction
 
     def move(self, keys):
+        if self.action == "dead":
+            return
+
         prev_action, prev_direction = self.action, self.direction
 
         self.handle_attack()
@@ -175,7 +185,7 @@ class Player:
     def handle_attack(self):
         pressed = pygame.mouse.get_pressed()
 
-        if any(pressed):
+        if any(pressed) and not self.action_type == "attack":
             self.action_type = "attack"
             self.action = "chop"
 

@@ -4,6 +4,7 @@ from player import Player
 from block import Block
 from crate import Crate
 from platform import Platform
+from spike import Spike
 pygame.init()
 
 # GAME INFORMATION
@@ -22,9 +23,10 @@ BACKGROUND = BACKGROUND.convert_alpha()
 
 def draw(win, player, objects):
     win.blit(BACKGROUND, (0, 0))
-    player.draw(win)
     for block in objects:
         block.draw(win)
+
+    player.draw(win)
 
     pygame.display.update()
 
@@ -53,7 +55,7 @@ def check_horizontal_collision(player, objects):
         if not result:
             continue
 
-        if result[0] > block.img.get_width() * 2:
+        if result[0] >= block.img.get_width() * 2 - 10:
             player.bounce("right", block)
             break
         elif result[0] < player.img[1].get_width():
@@ -83,6 +85,23 @@ def check_crate_collision(player, objects):
             break
 
 
+def check_platform_collision(player, objects):
+    for block in objects:
+        result = player.collide(block)
+        if not result:
+            continue
+
+        # check vertical collision
+        print(result[1])
+        if result[1] >= 32 and result[1] <= 50:
+            player.fall()
+            break
+        elif result[1] >= 80 and not player.jumping:
+            player.land(block)
+            player.x += block.x_vel
+            break
+
+
 run = True
 
 player = Player(700, 410, "left", WIDTH, HEIGHT)
@@ -106,7 +125,9 @@ for i in range((WIDTH // 38) + 1):
 
 platforms = [Platform(300, 500, 100, 0)]
 
-objects = floors + walls + crates + platforms
+spikes = [Spike(600, 630)]
+
+objects = floors + walls + crates + platforms + spikes
 
 while run:
     clock.tick(MAX_FPS)
@@ -121,9 +142,15 @@ while run:
     player.move(keys)
     player.handle_jump(keys)
 
-    check_vertical_collision(player, floors + platforms)
-    check_horizontal_collision(walls)
-    check_crate_collision(crate)
+    check_vertical_collision(player, floors)
+    check_horizontal_collision(player, walls)
+    check_crate_collision(player, crates)
+    check_platform_collision(player, platforms)
+
+    for spike in spikes:
+        if player.collide(spike):
+            player.die()
+            # TODO GAME IS OVER!
 
     player.apply_gravity()
 

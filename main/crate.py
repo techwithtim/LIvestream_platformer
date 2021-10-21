@@ -1,12 +1,6 @@
 from images import CRATE
+from base_object import AbstractObject
 
-class Crate:
+
+class Crate(AbstractObject):
     IMG = CRATE
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.img = Crate.IMG
-
-    def draw(self, win):
-        win.blit(self.img, (self.x, self.y))
