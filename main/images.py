@@ -31,11 +31,15 @@ PLAYER_ATTACK_CHOP = load_player_sprites(
     "main\\assets\\player\\attack\\chop\\", 2)
 
 BACKGROUND = pygame.image.load("main\\assets\\background.png")
+BACKGROUND = pygame.transform.scale(BACKGROUND, (round(BACKGROUND.get_width(
+) * 1.5), round(BACKGROUND.get_height() * 1.5)))
 CRATE = pygame.image.load("main\\assets\\crate.png")
 CRATE = pygame.transform.scale(
     CRATE, (round(CRATE.get_width() * 0.75), round(CRATE.get_height() * 0.75)))
 DOOR = pygame.image.load("main\\assets\\door.png")
 PLATFORM = pygame.image.load("main\\assets\\platform.png")
+PLATFORM = pygame.transform.scale(PLATFORM, (round(PLATFORM.get_width(
+) * 0.6), round(PLATFORM.get_height() * 0.3)))
 SPIKE = pygame.image.load("main\\assets\\spike.png")
 
 TRAMPONLINE = [pygame.image.load("main\\assets\\jump\\jump1.png"), pygame.image.load(

@@ -28,6 +28,7 @@ class Player:
     RUN_VEL = 5
     GRAVITY = 6
     JUMP_VEL = 15
+    BIG_FACTOR = 2
 
     def __init__(self, x, y, direction, window_width=0, window_height=0):
         self.x = x
@@ -42,8 +43,6 @@ class Player:
         self.animation_count = 0
         self.frame_duration = 5
         self.img = None
-        self.set_image()
-
         self.vel = self.WALK_VEL
 
         self.jumping = False
@@ -52,6 +51,9 @@ class Player:
 
         self.grounded = False
         self.blocked_direction = None
+
+        self.big = False
+        self.set_image()
 
     def land(self, obj):
         self.jumping = False
@@ -64,6 +66,9 @@ class Player:
             self.y -= 1
         self.y += 1
         self.grounded = True
+
+    def toggle_big(self):
+        self.big = not self.big
 
     def fall(self):
         self.jumping = False
@@ -102,6 +107,14 @@ class Player:
             new_img = []
             for image in self.img:
                 image = pygame.transform.flip(image, True, False)
+                new_img.append(image)
+            self.img = new_img
+
+        if self.big:
+            new_img = []
+            for image in self.img:
+                image = pygame.transform.scale(image, (image.get_width(
+                ) * self.BIG_FACTOR, image.get_height() * self.BIG_FACTOR))
                 new_img.append(image)
             self.img = new_img
 

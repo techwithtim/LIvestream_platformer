@@ -1,4 +1,4 @@
-import pygame._sdl2.audio
+import pygame
 
 
 class Block:
