@@ -80,10 +80,13 @@ class Player:
 
     def set_image(self):
         action = self.ACTIONS[self.action_type][self.action][self.direction]
+        flip = False
+        if self.action == "push" and self.direction == "right":
+            flip = True
+            action = self.ACTIONS[self.action_type][self.action]["left"]
 
         if self.animation_count // self.frame_duration >= len(action[1]):
             self.animation_count = 0
-            print(self.action)
 
             if self.jumping:
                 self.action = "falling"
@@ -94,6 +97,13 @@ class Player:
 
         self.img = [layer[self.animation_count//self.frame_duration]
                     for layer in action if layer]
+
+        if flip:
+            new_img = []
+            for image in self.img:
+                image = pygame.transform.flip(image, True, False)
+                new_img.append(image)
+            self.img = new_img
 
     def draw(self, win):
         for layer in self.img:
@@ -115,14 +125,12 @@ class Player:
                 self.action = "walk"
             self.direction = "left"
             self.x -= self.vel
-
         elif keys[pygame.K_d] and self.blocked_direction != "right":  # right
             if self.action not in ["push", "jump",  "falling"] and self.action_type != "attack":
                 self.action = "walk"
             self.direction = "right"
             self.x += self.vel
-
-        elif self.action_type != "attack" and not self.action in ["jump", "falling", "push"]:
+        elif self.action_type != "attack" and not self.action in ["jump", "falling"]:
             self.action = "stand"
 
         if keys[pygame.K_LSHIFT] and self.action in ["walk", "run"]:  # run

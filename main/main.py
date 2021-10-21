@@ -18,16 +18,17 @@ pygame.display.set_caption(TITLE)
 
 
 def draw(win, player, objects):
-    win.fill((0, 0, 0))
+    win.blit()
     player.draw(win)
     for block in objects:
         block.draw(win)
+
     pygame.display.update()
 
 
 run = True
 
-player = Player(700, 410, "right", WIDTH, HEIGHT)
+player = Player(700, 410, "left", WIDTH, HEIGHT)
 clock = pygame.time.Clock()
 
 floors = [
@@ -57,8 +58,6 @@ while run:
             break
 
     keys = pygame.key.get_pressed()
-    player.move(keys)
-    player.handle_jump(keys)
 
     for block in floors:
         result = player.collide(block)
@@ -66,7 +65,7 @@ while run:
             continue
 
         # check vertical collision
-        if result[1] < block.img.get_height() / 2:
+        if result[1] < block.img.get_height():
             player.fall()
             break
         elif result[1] >= block.img.get_height() / 2 and not player.jumping:
@@ -103,6 +102,9 @@ while run:
             if player.action == "push":
                 crate.x -= player.vel
             break
+
+    player.move(keys)
+    player.handle_jump(keys)
 
     player.apply_gravity()
 
