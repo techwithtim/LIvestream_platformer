@@ -49,8 +49,8 @@ class Player:
     BIG_FACTOR = 2
 
     def __init__(self, x, y, direction, window_width=0, window_height=0):
-        self.x = x
-        self.y = y
+        self.x = self.start_x = x
+        self.y = self.start_y = y
         self.window_width = window_width
         self.window_height = window_height
 
@@ -87,6 +87,8 @@ class Player:
 
     def die(self):
         self.action = "dead"
+        self.x = self.start_x
+        self.y = self.start_y
 
     def toggle_big(self):
         self.big = not self.big

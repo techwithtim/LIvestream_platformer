@@ -1,6 +1,7 @@
 import pygame
 import json
 pygame.init()
+pygame.font.init()
 
 # GAME INFORMATION
 TITLE = "Hugo The Huge"
@@ -25,12 +26,20 @@ BACKGROUND = BACKGROUND.convert_alpha()
 
 # SCROLLING
 MOVEMENT_BORDER_LEFT = 300
-MOVEMENT_BORDER_RIGHT = 700
+MOVEMENT_BORDER_RIGHT = 500
 offset = 0
 
 # LEVELS
-LEVEL1 = "level1.json"
+LEVEL1 = "level2.json"
 
+# FONTS
+FONT_30 = pygame.font.SysFont('comicsans', 30)
+FONT_90 = pygame.font.SysFont('comicsans', 90)
+
+def blit_text_center(text, win, color):
+    render = FONT_90.render(text, 1, color)
+    win.blit(render, (WIDTH // 2 - render.get_width() // 2, HEIGHT // 2 - render.get_height() // 2))
+    pygame.display.update()
 
 def load_level(name):
     with open(name, "r") as json_file:
@@ -154,7 +163,7 @@ create_objects = {
 
 run = True
 
-player = Player(700, 410, "left", WIDTH, HEIGHT)
+player = Player(100, 410, "left", WIDTH, HEIGHT)
 clock = pygame.time.Clock()
 
 floors = []
@@ -217,7 +226,8 @@ while run:
     for spike in spikes:
         if player.collide(spike):
             player.die()
-            # TODO GAME IS OVER!
+            blit_text_center("You died... Try again!", WIN, (0, 0, 0))
+            pygame.time.delay(3000)
 
     for door in doors:
         if player.collide(door):
