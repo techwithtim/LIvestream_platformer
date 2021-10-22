@@ -1,7 +1,7 @@
 from images import PLATFORM
+from base_object import AbstractObject
 
-
-class Platform:
+class Platform(AbstractObject):
     IMG = PLATFORM
     VEL = 2
 
@@ -27,6 +27,6 @@ class Platform:
         if self.vertical_travel != 0:
             self.y += self.y_vel
 
-    def draw(self, win):
-        win.blit(self.img, (self.x, self.y))
+    def draw(self, win, offset):
+        win.blit(self.img, (self.x - offset, self.y))
         self.move()

@@ -125,9 +125,9 @@ class Player:
                 new_img.append(image)
             self.img = new_img
 
-    def draw(self, win):
+    def draw(self, win, offset):
         for layer in self.img:
-            win.blit(layer, (self.x, self.y))
+            win.blit(layer, (self.x - offset, self.y))
 
         self.animation_count += 1
         self.set_image()

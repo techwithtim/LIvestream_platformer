@@ -21,13 +21,18 @@ pygame.display.set_caption(TITLE)
 WHITE = (255, 255, 255)
 BACKGROUND = BACKGROUND.convert_alpha()
 
+# SCROLLING
+MOVEMENT_BORDER_LEFT = 250
+MOVEMENT_BORDER_RIGHT = 750
+offset = 0
 
-def draw(win, player, objects):
+
+def draw(win, player, objects, offset):
     win.blit(BACKGROUND, (0, 0))
     for block in objects:
-        block.draw(win)
+        block.draw(win, offset)
 
-    player.draw(win)
+    player.draw(win, offset)
 
     pygame.display.update()
 
@@ -85,9 +90,9 @@ def check_crate_collision(player, objects, walls):
                 player.bounce("right", crate)
             break
         elif result[0] < crate.img.get_width() / 2:
-            if player.action == "push": # left
+            if player.action == "push":  # left
                 crate.x -= player.vel
-                
+
                 for wall in walls:
                     if crate.collide(wall):
                         crate.x += player.vel
@@ -169,12 +174,16 @@ while run:
 
     if player.collide(door):
         if keys[pygame.K_w]:
-            print("run")
             # next level
             pass
 
+    if player.x <= MOVEMENT_BORDER_LEFT:
+        offset = player.x - MOVEMENT_BORDER_LEFT
+    if player.x + player.img[1].get_width() >= MOVEMENT_BORDER_RIGHT:
+        offset = player.x - MOVEMENT_BORDER_RIGHT
+
     player.apply_gravity()
 
-    draw(WIN, player, objects)
+    draw(WIN, player, objects, offset)
 
 pygame.quit()
