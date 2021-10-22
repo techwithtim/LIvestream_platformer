@@ -13,7 +13,7 @@ class Platform(AbstractObject):
         self.y_vel = self.VEL
         self.horizontal_travel = horizontal_travel
         self.vertical_travel = vertical_travel
-        self.img = self.IMG
+        self.img = self.IMG.convert_alpha()
 
     def move(self):
         if abs(self.start_x - (self.x + self.x_vel)) >= self.horizontal_travel:

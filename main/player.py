@@ -1,30 +1,47 @@
 from images import *
 import pygame
 
+ACTIONS = {
+    "normal": {
+        "walk": PLAYER_WALK,
+        "run": PLAYER_RUN,
+        "jump": PLAYER_JUMP,
+        "push": PLAYER_PUSH,
+        "stand": PLAYER_STAND,
+        "falling": PLAYER_FALLING
+    },
+    "weapon": {
+        "walk": PLAYER_WALK_WEAPON,
+        "run": PLAYER_RUN_WEAPON,
+        "jump": PLAYER_JUMP_WEAPON,
+        "push": PLAYER_PUSH_WEAPON,
+        "stand": PLAYER_STAND_WEAPON,
+        "falling": PLAYER_FALLING_WEAPON
+    },
+    "attack": {
+        "chop": PLAYER_ATTACK_CHOP
+    },
+    "dead": [DEAD, DEAD, DEAD]
+}
+
+
+for key in ACTIONS:
+    if key == "dead":
+        continue
+
+    for other_key in ACTIONS[key]:
+        for lr in ACTIONS[key][other_key]:
+            for i, layer in enumerate(ACTIONS[key][other_key][lr]):
+                new_layer = []
+                for item in layer:
+                    img = item.convert_alpha()
+                    new_layer.append(img)
+                ACTIONS[key][other_key][lr][i] = new_layer
+
 
 class Player:
-    ACTIONS = {
-        "normal": {
-            "walk": PLAYER_WALK,
-            "run": PLAYER_RUN,
-            "jump": PLAYER_JUMP,
-            "push": PLAYER_PUSH,
-            "stand": PLAYER_STAND,
-            "falling": PLAYER_FALLING
-        },
-        "weapon": {
-            "walk": PLAYER_WALK_WEAPON,
-            "run": PLAYER_RUN_WEAPON,
-            "jump": PLAYER_JUMP_WEAPON,
-            "push": PLAYER_PUSH_WEAPON,
-            "stand": PLAYER_STAND_WEAPON,
-            "falling": PLAYER_FALLING_WEAPON
-        },
-        "attack": {
-            "chop": PLAYER_ATTACK_CHOP
-        },
-        "dead": [DEAD, DEAD, DEAD]
-    }
+    ACTIONS = ACTIONS
+
     WALK_VEL = 3
     RUN_VEL = 5
     GRAVITY = 6
