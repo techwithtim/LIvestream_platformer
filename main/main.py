@@ -5,6 +5,7 @@ from block import Block
 from crate import Crate
 from platform import Platform
 from spike import Spike
+from door import Door
 pygame.init()
 
 # GAME INFORMATION
@@ -65,21 +66,33 @@ def check_horizontal_collision(player, objects):
         player.blocked_direction = None
 
 
-def check_crate_collision(player, objects):
+def check_crate_collision(player, objects, walls):
     for crate in objects:
         result = player.collide(crate)
         if not result:
             continue
 
         if result[0] > crate.img.get_width() / 2:
-            if player.action == "push":
+            if player.action == "push":  # right
                 crate.x += player.vel
+
+                for wall in walls:
+                    if crate.collide(wall):
+                        crate.x -= player.vel
+                        player.bounce("right", crate)
+                        break
             else:
                 player.bounce("right", crate)
             break
         elif result[0] < crate.img.get_width() / 2:
-            if player.action == "push":
+            if player.action == "push": # left
                 crate.x -= player.vel
+                
+                for wall in walls:
+                    if crate.collide(wall):
+                        crate.x += player.vel
+                        player.bounce("left", crate)
+                        break
             else:
                 player.bounce("left", crate)
             break
@@ -117,7 +130,7 @@ floors = [
 walls = [Block(300, 570, BLOCKS[0], 90),
          Block(300, 610, BLOCKS[0], 90)]
 
-crates = []
+crates = [Crate(700, 570)]
 
 for i in range((WIDTH // 38) + 1):
     bloc = Block(i * 38, 670, BLOCKS[0])
@@ -125,9 +138,11 @@ for i in range((WIDTH // 38) + 1):
 
 platforms = [Platform(300, 500, 100, 0)]
 
-spikes = [Spike(600, 630)]
+spikes = []
 
-objects = floors + walls + crates + platforms + spikes
+door = Door(400, 600)
+
+objects = floors + walls + crates + platforms + spikes + [door]
 
 while run:
     clock.tick(MAX_FPS)
@@ -144,7 +159,7 @@ while run:
 
     check_vertical_collision(player, floors)
     check_horizontal_collision(player, walls)
-    check_crate_collision(player, crates)
+    check_crate_collision(player, crates, walls)
     check_platform_collision(player, platforms)
 
     for spike in spikes:
@@ -152,6 +167,14 @@ while run:
             player.die()
             # TODO GAME IS OVER!
 
+    if player.collide(door):
+        if keys[pygame.K_w]:
+            print("run")
+            # next level
+            pass
+
     player.apply_gravity()
 
     draw(WIN, player, objects)
+
+pygame.quit()

@@ -39,6 +39,8 @@ CRATE = pygame.transform.scale(
     CRATE, (round(CRATE.get_width() * 0.75), round(CRATE.get_height() * 0.75)))
 
 DOOR = pygame.image.load("main\\assets\\door.png")
+DOOR = pygame.transform.scale(DOOR, (round(DOOR.get_width(
+) * 0.25), round(DOOR.get_height() * 0.25)))
 
 PLATFORM = pygame.image.load("main\\assets\\platform.png")
 PLATFORM = pygame.transform.scale(PLATFORM, (round(PLATFORM.get_width(
