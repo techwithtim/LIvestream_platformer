@@ -154,8 +154,8 @@ class Player:
         if self.big:
             new_img = []
             for image in self.img:
-                image = pygame.transform.scale(image, (image.get_width(
-                ) * self.BIG_FACTOR, image.get_height() * self.BIG_FACTOR))
+                image = pygame.transform.scale(image, (round(image.get_width(
+                ) * self.BIG_FACTOR), round(image.get_height() * self.BIG_FACTOR)))
                 new_img.append(image)
             self.img = new_img
 

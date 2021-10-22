@@ -8,9 +8,11 @@ class AbstractObject:
         self.x = x
         self.y = y
         self.img = self.IMG
+        self.visible = True
 
     def draw(self, win, offset):
-        win.blit(self.img, (self.x - offset, self.y))
+        if self.visible:
+            win.blit(self.img, (self.x - offset, self.y))
 
     def clicked(self, pos):
         rect = pygame.Rect(

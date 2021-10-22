@@ -35,6 +35,8 @@ BACKGROUND = pygame.transform.scale(BACKGROUND, (round(BACKGROUND.get_width(
 ) * 1.5), round(BACKGROUND.get_height() * 1.5)))
 
 CRATE = pygame.image.load("main\\assets\\crate.png")
+SMALL_CRATE = pygame.transform.scale(
+    CRATE, (round(CRATE.get_width() * 0.25), round(CRATE.get_height() * 0.25)))
 CRATE = pygame.transform.scale(
     CRATE, (round(CRATE.get_width() * 0.75), round(CRATE.get_height() * 0.75)))
 
