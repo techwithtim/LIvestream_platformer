@@ -95,6 +95,7 @@ class Player:
         self.jumping = False
         self.jump_count = 0
         self.jump_duration = 20
+        self.vel = self.WALK_VEL
 
         self.grounded = False
         self.blocked_direction = None

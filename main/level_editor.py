@@ -1,11 +1,4 @@
 import pygame
-from images import *
-from player import Player
-from block import Block
-from crate import Crate
-from platform import Platform
-from spike import Spike
-from door import Door
 import math
 import json
 from datetime import datetime
@@ -20,6 +13,14 @@ WIDTH, HEIGHT = 1000, 700
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(TITLE)
 
+from images import *
+from player import Player
+from block import Block
+from crate import Crate
+from platform import Platform
+from spike import Spike
+from door import Door
+
 # COLORS
 WHITE = (255, 255, 255)
 BACKGROUND = BACKGROUND.convert_alpha()
@@ -29,7 +30,7 @@ MOVEMENT_BORDER_LEFT = 250
 MOVEMENT_BORDER_RIGHT = 750
 offset = 0
 
-LOAD_LEVEL = "level-2021-10-21 21-30-19.794045.json"
+LOAD_LEVEL = "level2.json"
 with open(LOAD_LEVEL, "r") as json_file:
     level = json.load(json_file)["data"]
 

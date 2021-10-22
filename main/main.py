@@ -33,7 +33,7 @@ offset = 0
 LEVEL1 = "level1.json"
 LEVEL2 = "level2.json"
 LEVEL3 = "level3.json"
-LEVELS = [LEVEL1, LEVEL2, LEVEL3]
+LEVELS = [LEVEL1]
 current_level = 0
 
 # FONTS
@@ -226,7 +226,7 @@ create_objects = {
 run = True
 
 player = Player(10, 350, "left", WIDTH, HEIGHT)
-dummy_player = Player(350, 400, "left", WIDTH, HEIGHT)
+dummy_player = Player(350, 400, "right", WIDTH, HEIGHT)
 dummy_player.big = True
 clock = pygame.time.Clock()
 
@@ -279,6 +279,7 @@ while run:
                     floors, walls, crates, platforms, spikes, doors = load_level(LEVELS[current_level])
                     objects = floors + walls + crates + platforms + spikes + doors
                 offset = 0
+                draw(WIN, player, objects, offset)
                 player.reset()
                 break
 
@@ -294,7 +295,7 @@ while run:
         pygame.display.update()
         pygame.time.delay(3000)
         main_menu = True
-
-    draw(WIN, player, objects, offset)
+    else:
+        draw(WIN, player, objects, offset)
 
 pygame.quit()
