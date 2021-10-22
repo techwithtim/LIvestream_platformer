@@ -80,8 +80,10 @@ create_objects = {
 
 for obj in level:
     create = obj["type"]
-    if create in ["floor", "wall"]:
+    if create == "floor":
         obj = create_objects[create](obj["x"], obj["y"], BLOCKS[0])
+    elif create == "wall":
+        obj = create_objects[create](obj["x"], obj["y"], BLOCKS[5])
     else:
         obj = create_objects[create](obj["x"], obj["y"])
 
@@ -142,8 +144,10 @@ while run:
                     obj.y = y - obj.img.get_height()/2
     elif left and create:
         x, y = round_to_10(x), round_to_10(y)
-        if create in ["floor", "wall"]:
+        if create == "floor":
             obj = create_objects[create](x, y, BLOCKS[0])
+        elif create == "wall":
+            obj = create_objects[create](x, y, BLOCKS[5])
         else:
             obj = create_objects[create](x, y)
 
