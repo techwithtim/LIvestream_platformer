@@ -1,11 +1,12 @@
 from images import PLATFORM
 from base_object import AbstractObject
 
+
 class Platform(AbstractObject):
     IMG = PLATFORM
     VEL = 2
 
-    def __init__(self, x, y, horizontal_travel=0, vertical_travel=0):
+    def __init__(self, x, y, horizontal_travel=150, vertical_travel=0):
         self.start_x = self.x = x
         self.start_y = self.y = y
         self.x_vel = self.VEL

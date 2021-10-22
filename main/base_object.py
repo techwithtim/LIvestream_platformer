@@ -1,3 +1,6 @@
+import pygame
+
+
 class AbstractObject:
     IMG = None
 
@@ -9,10 +12,7 @@ class AbstractObject:
     def draw(self, win, offset):
         win.blit(self.img, (self.x - offset, self.y))
 
-    def __repr__(self):
-        return self.__name__
-
     def clicked(self, pos):
-        current_mask = pygame.mask.from_surface(self.img)
-        offset = pos[0] - self.x, pos[1] - self.y
-        return current_mask.get_at(offset) != None
+        rect = pygame.Rect(
+            self.x, self.y, self.img.get_width(), self.img.get_height())
+        return rect.collidepoint(pos)
