@@ -54,7 +54,7 @@ class Player:
         self.window_width = window_width
         self.window_height = window_height
 
-        self.direction = direction
+        self.direction = self.starting_direction = direction
         self.action = "run"
         self.action_type = "weapon"
 
@@ -87,8 +87,23 @@ class Player:
 
     def die(self):
         self.action = "dead"
+        self.set_image()
+
+    def reset(self):
         self.x = self.start_x
         self.y = self.start_y
+        self.jumping = False
+        self.jump_count = 0
+        self.jump_duration = 20
+
+        self.grounded = False
+        self.blocked_direction = None
+
+        self.direction = self.starting_direction
+        self.action = "run"
+        self.action_type = "weapon"
+
+        self.big = False
 
     def toggle_big(self):
         self.big = not self.big
