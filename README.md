@@ -1,2 +1,2 @@
 # LIvestream_platformer Level Editor
-You edit levels!
+Here's where you can build levels for the platformer!
